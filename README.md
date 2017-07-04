@@ -18,4 +18,4 @@ The following options can be specified via environment variables:
 |`HTML_REFRESH_RATE`|The refresh rate to use for the page|`1`|
 
 
-Additionally, you can configure `ASPNETCORE_URLS` to control the ports that the web server binds to, e.g. `http://localhost:5001'`(see [Url Prefixes](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel#url-prefixes) for more examples)
+Additionally, you can configure `ASPNETCORE_URLS` to control the ports that the web server binds to, e.g. `http://localhost:5001`(see [Url Prefixes](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel#url-prefixes) for more examples)
