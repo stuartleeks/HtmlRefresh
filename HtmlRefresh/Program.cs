@@ -38,11 +38,14 @@ namespace HtmlRefresh
             var fontSize = Environment.GetEnvironmentVariable("HTML_REFRESH_FONTSIZE") ?? "16vw";
             Console.WriteLine($"\tFontSize: {fontSize}");
 
+            var refreshRate = Environment.GetEnvironmentVariable("HTML_REFRESH_RATE") ?? "1";
+            Console.WriteLine($"\tRate: {refreshRate}");
+
             var message = Environment.GetEnvironmentVariable("HTML_REFRESH_MESSAGE") ?? "%HOSTNAME%";
             var messageExpanded = Environment.ExpandEnvironmentVariables(message);
             Console.WriteLine($"\tMessage: '{message}' (expanded: '{messageExpanded}')");
 
-            Html = $"<html><head><meta http-equiv=\"refresh\" content=\"1\"></head><body style=\"background-color: {backgroundColour};color: {foregroundColour};font-size: {fontSize};font-family: 'Open Sans',sans-serif; margin:0;padding:20px\">{messageExpanded}</body></head>";
+            Html = $"<html><head><meta http-equiv=\"refresh\" content=\"{refreshRate}\"></head><body style=\"background-color: {backgroundColour};color: {foregroundColour};font-size: {fontSize};font-family: 'Open Sans',sans-serif; margin:0;padding:20px\">{messageExpanded}</body></head>";
         }
 
         private static async Task RenderHtml(HttpContext context)
