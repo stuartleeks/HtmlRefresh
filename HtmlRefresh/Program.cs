@@ -41,7 +41,7 @@ namespace HtmlRefresh
             var refreshRate = Environment.GetEnvironmentVariable("HTML_REFRESH_RATE") ?? "1";
             Console.WriteLine($"\tRate: {refreshRate}");
 
-            var message = Environment.GetEnvironmentVariable("HTML_REFRESH_MESSAGE") ?? "%HOSTNAME%";
+            var message = Environment.GetEnvironmentVariable("HTML_REFRESH_MESSAGE") ?? "$HOSTNAME";
             var messageExpanded = Environment.ExpandEnvironmentVariables(message);
             Console.WriteLine($"\tMessage: '{message}' (expanded: '{messageExpanded}')");
 
