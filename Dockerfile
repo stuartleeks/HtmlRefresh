@@ -1,7 +1,18 @@
-FROM microsoft/dotnet:2.0.0-runtime
-
-COPY ./publish/HtmlRefresh /app
+FROM microsoft/dotnet:2.0.0-sdk as build-ENV
 WORKDIR /app
+
+COPY /HtmlRefresh/HtmlRefresh.csproj ./
+RUN dotnet restore
+
+COPY /HtmlRefresh/ ./
+RUN dotnet build
+RUN dotnet publish -c Release -o out --no-restore
+
+
+# runtime image:
+FROM microsoft/dotnet:2.0.0-runtime
+WORKDIR /app
+COPY --from=build-env /app/out ./
 
 EXPOSE 5000/tcp
 
