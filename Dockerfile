@@ -1,7 +1,8 @@
-FROM microsoft/dotnet:2.0.0-sdk as build-ENV
+FROM microsoft/dotnet-nightly:2.1-sdk AS build-env
 WORKDIR /app
 
 COPY /HtmlRefresh/HtmlRefresh.csproj ./
+COPY /NuGet.Config ./
 RUN dotnet restore
 
 COPY /HtmlRefresh/ ./
@@ -10,7 +11,7 @@ RUN dotnet publish -c Release -o out --no-restore
 
 
 # runtime image:
-FROM microsoft/dotnet:2.0.0-runtime
+FROM microsoft/dotnet-nightly:2.1-runtime-alpine
 WORKDIR /app
 COPY --from=build-env /app/out ./
 
