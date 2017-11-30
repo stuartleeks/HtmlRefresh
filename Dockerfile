@@ -2,15 +2,15 @@ FROM microsoft/dotnet:2.0.0-sdk as build-ENV
 WORKDIR /app
 
 COPY /HtmlRefresh/HtmlRefresh.csproj ./
-RUN dotnet restore
+RUN dotnet restore --runtime linux-x64
 
 COPY /HtmlRefresh/ ./
-RUN dotnet build
-RUN dotnet publish -c Release -o out --no-restore
+RUN dotnet build --runtime linux-x64
+RUN dotnet publish -c Release -o out --no-restore --runtime linux-x64
 
 
 # runtime image:
-FROM microsoft/dotnet:2.0.0-runtime
+FROM microsoft/dotnet:2.0.0-runtime-deps
 WORKDIR /app
 COPY --from=build-env /app/out ./
 
@@ -24,5 +24,5 @@ ENV HTML_REFRESH_FGCOLOUR $ARG_HTML_REFRESH_FGCOLOUR
 ENV HTML_REFRESH_MESSAGE "%HOSTNAME%"
 ENV ASPNETCORE_URLS=http://*:5000
 
-ENTRYPOINT ["dotnet", "HtmlRefresh.dll"]
+ENTRYPOINT ["./HtmlRefresh"]
 
