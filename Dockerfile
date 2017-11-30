@@ -1,6 +1,7 @@
 FROM microsoft/dotnet:2.0.0-sdk as build-ENV
 WORKDIR /app
 
+COPY /NuGet.Config ./
 COPY /HtmlRefresh/HtmlRefresh.csproj ./
 RUN dotnet restore --runtime linux-x64
 
