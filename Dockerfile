@@ -1,28 +1,16 @@
-FROM microsoft/dotnet:2.1-sdk-alpine AS build-env
+FROM golang:alpine as build
+ADD ./src /src
+RUN cd /src/HtmlRefresh && go build
+
+FROM alpine
 WORKDIR /app
-
-COPY /HtmlRefresh/HtmlRefresh.csproj ./
-RUN dotnet restore
-
-COPY /HtmlRefresh/ ./
-RUN dotnet build
-RUN dotnet publish -c Release -o out --no-restore
-
-
-# runtime image:
-FROM microsoft/dotnet:2.1-runtime-alpine
-WORKDIR /app
-COPY --from=build-env /app/out ./
-
-EXPOSE 5000/tcp
+COPY --from=build /src/HtmlRefresh /app
+EXPOSE 8080
 
 ARG ARG_HTML_REFRESH_BGCOLOUR
 ARG ARG_HTML_REFRESH_FGCOLOUR
 
 ENV HTML_REFRESH_BGCOLOUR $ARG_HTML_REFRESH_BGCOLOUR
 ENV HTML_REFRESH_FGCOLOUR $ARG_HTML_REFRESH_FGCOLOUR
-ENV HTML_REFRESH_MESSAGE "%HOSTNAME%"
-ENV ASPNETCORE_URLS=http://*:5000
 
-ENTRYPOINT ["dotnet", "HtmlRefresh.dll"]
-
+ENTRYPOINT [ "./HtmlRefresh" ]
