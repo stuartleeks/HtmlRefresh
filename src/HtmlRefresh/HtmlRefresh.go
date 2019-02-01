@@ -16,7 +16,7 @@ var message string
 
 func envVarOrDefault(envVarName string, defaultValue string) string {
 	envValue, found := os.LookupEnv(envVarName)
-	if found {
+	if found && envValue != "" {
 		return envValue
 	}
 	return defaultValue
